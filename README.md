@@ -11,7 +11,7 @@ A command-line-based Snake and Ladder game where you can play against Gemini AI.
 ## 🚀 Installation 🚀
 1. Clone this repository:
    ```sh
-   git clone https://github.com/your-username/snake-ladder-gemini-cli.git
+   git clone https://github.com/renathaputri/snake-ladder-gemini-cli.git
    ```
 2. Navigate to the project folder:
    ```sh
