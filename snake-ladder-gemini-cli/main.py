@@ -1,13 +1,15 @@
-
+import os
 import random
 import time
 import google.generativeai as genai
-
-# Setup Gemini AI API Key
-genai.configure(api_key="")
+from dotenv import load_dotenv
 
 def ai_roll_dice():
-    return random.randint(1, 6)
+    model = genai.GenerativeModel("gemini-1.5-pro")
+    prompt = "Enter any integer between 1 and 6 inclusive (enter the integer only please)!"
+    response = model.generate_content(prompt)
+    response_int = int(response.text.strip())
+    return response_int
 
 class SnakesAndLadders:
     def __init__(self, players, board_size=100, ai_player=None):
@@ -26,7 +28,7 @@ class SnakesAndLadders:
             time.sleep(1)
             return ai_roll_dice()
         else:
-            input(f"{player}, tekan Enter untuk melempar dadu...")
+            input(f"{player}, press Enter to roll the dice...")
             return random.randint(1, 6)
     
     def move_player(self, player):
@@ -62,7 +64,7 @@ class SnakesAndLadders:
             self.move_player(player)
         elif power_up == 'trap':
             print(f"{player} hit a trap! Skipping next turn.")
-            pass  # Bisa ditambahkan efek tambahan
+            pass  # can add additional effect
     
     def display_board(self):
         board = ['.'] * self.board_size
@@ -92,7 +94,12 @@ class SnakesAndLadders:
             self.turns += 1
         print("Game over! Max turns reached.")
 
-if __name__ == "__main__":
+
+def main():
+    # Configure Gemini AI API Key
+    load_dotenv()
+    genai.configure(api_key=os.environ['GEMINI_API_KEY'])
+
     mode = input("Choose game mode: 1 for Player vs Player, 2 for Player vs AI: ")
     if mode == "1":
         players = input("Enter player names separated by commas: ").split(",")
@@ -103,5 +110,8 @@ if __name__ == "__main__":
     else:
         print("Invalid mode selection. Exiting game.")
         exit()
-    
+
     game.play_game()
+
+if __name__ == "__main__":
+    main()
